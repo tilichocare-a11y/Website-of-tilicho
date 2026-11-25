@@ -13,7 +13,7 @@ def uri(path, mime='image/webp'):
 
 
 pick = {'logo': 'images/logo-320.webp', 'wand-box': 'images/wand-box-560.webp', 'wand': 'images/wand-400.webp',
-        'logo-tagline': 'images/logo-tagline-480.webp', 'pouch-lemon': 'images/pouch-lemon-360.webp',
+        'logo-tagline': 'images/logo-tagline-480.webp', 'pouch-lemon': 'images/pouch-lemon-360.webp', 'pouch-lavender': 'images/pouch-lavender-360.webp', 'pouch-pine': 'images/pouch-pine-360.webp', 'pouch-ocean': 'images/pouch-ocean-360.webp',
         'drain-sink': 'images/drain-sink-400.webp'}
 cache = {}
 html = re.sub(r'\s(srcset|sizes)="[^"]*"', '', html)

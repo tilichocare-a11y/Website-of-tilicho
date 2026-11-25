@@ -50,40 +50,61 @@ var TILICHO = {
   var C = TILICHO;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var hasPhone = /^\d{10,15}$/.test(C.phoneIntl);
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
 
+  /* ---------- WhatsApp messages ---------- */
+  var MSG = {
+    hello: 'Hello Tilicho! ',
+    wand: 'Hello Tilicho! I would like to order the Disposable Toilet Wand (box of 16 heads), NPR 1,500.\n' +
+      'Please include the free drain stick launch offer if still available.\nQuantity: 1\nName:\nDelivery address:',
+    drain: function (f) {
+      return 'Hello Tilicho! I would like to order Drain Cleaning Sticks, ' + f + ' fragrance (pack of 12 sticks), NPR 370.\n' +
+        'Quantity: 1\nName:\nDelivery address:';
+    },
+    notify: function (x) { return 'Hello Tilicho! Please let me know when ' + x + ' is available.'; },
+    share: 'Hello Tilicho! I would like to share a video review of my Tilicho product.',
+    dist: 'Hello Tilicho! I am interested in becoming a Tilicho distributor.\nName:\nBusiness:\nCity/District:'
+  };
   function waLink(text) {
     var base = 'https://wa.me/' + (hasPhone ? C.phoneIntl : '');
     return text ? base + '?text=' + encodeURIComponent(text) : base;
   }
-  function openWhatsApp(text) { window.open(waLink(text), '_blank', 'noopener'); }
-  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  // Order buttons are real links (they work in in-app browsers that block pop-ups)
+  function setWa(a, text) { a.href = waLink(text); a.target = '_blank'; a.rel = 'noopener'; }
+  // Used only after a form is submitted
+  function openWhatsApp(text) {
+    var url = waLink(text);
+    var w = window.open(url, '_blank');
+    if (w) { try { w.opener = null; } catch (e) {} } else { window.location.href = url; }
+  }
 
-  /* ---------- Fill in contact details ---------- */
+  /* ---------- Fill in contact details and links ---------- */
   $$('[data-fill]').forEach(function (el) { var v = C[el.getAttribute('data-fill')]; if (v) el.textContent = v; });
   $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
-  var links = {
-    tel: 'tel:+' + C.phoneIntl,
-    whatsapp: waLink('Hello Tilicho! '),
-    viber: 'viber://chat?number=%2B' + C.phoneIntl,
-    email: 'mailto:' + C.email
-  };
   $$('[data-link]').forEach(function (a) {
     var type = a.getAttribute('data-link');
-    a.href = links[type];
-    if (type === 'whatsapp') { a.target = '_blank'; a.rel = 'noopener'; }
+    if (type === 'whatsapp') setWa(a, MSG.hello);
+    else if (type === 'tel') a.href = 'tel:+' + C.phoneIntl;
+    else if (type === 'viber') a.href = 'viber://chat?number=%2B' + C.phoneIntl;
+    else if (type === 'email') a.href = 'mailto:' + C.email;
   });
+  $$('[data-order="wand"]').forEach(function (a) { setWa(a, MSG.wand); });
+  $$('[data-order="drain"]').forEach(function (a) { setWa(a, MSG.drain(a.getAttribute('data-fragrance') || 'Lemon')); });
+  $$('[data-notify]').forEach(function (a) { setWa(a, MSG.notify(a.getAttribute('data-notify'))); });
+  $$('.dist .nojs-only').forEach(function (a) { setWa(a, MSG.dist); });
+  // Social icons: link them when a profile URL is set, hide them otherwise (no dead buttons)
   $$('[data-social]').forEach(function (a) {
     var url = C[a.getAttribute('data-social')];
-    if (url) { a.href = url; a.target = '_blank'; a.rel = 'noopener'; }
+    if (url) { a.href = url; a.target = '_blank'; a.rel = 'noopener'; } else { a.hidden = true; }
+  });
+  $$('.social-row').forEach(function (row) {
+    if (!row.querySelector('.social:not([hidden])')) row.hidden = true;
   });
 
-  /* ---------- Header: solid on scroll + mobile menu ---------- */
+  /* ---------- Header: shadow on scroll + mobile menu ---------- */
   var header = document.querySelector('.site-header');
   var ticking = false;
-  function onScroll() {
-    if (header) header.classList.toggle('is-scrolled', window.scrollY > 8);
-    ticking = false;
-  }
+  function onScroll() { if (header) header.classList.toggle('is-scrolled', window.scrollY > 8); ticking = false; }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   onScroll();
 
@@ -107,15 +128,10 @@ var TILICHO = {
     window.addEventListener('resize', function () { if (window.innerWidth >= 900) setMenu(false); });
   }
 
-  /* ---------- Watch it work: tabs, demo player, real videos ---------- */
+  /* ---------- How it works: product tabs, demo player, real videos ---------- */
   var watch = document.querySelector('.watch');
   var player = document.querySelector('[data-player]');
   if (watch && player) {
-    var tabs = $$('.tab', watch);
-    var current = 'wand';
-    player.setAttribute('data-current', current);
-
-    // Swap in real videos where configured
     $$('[data-pane]', player).forEach(function (pane) {
       var key = pane.getAttribute('data-pane');
       var v = (C.videos && C.videos[key]) || {};
@@ -138,7 +154,7 @@ var TILICHO = {
         btn.innerHTML = '<span class="yt-play"><svg aria-hidden="true"><use href="#i-play"/></svg></span>';
         btn.addEventListener('click', function () {
           var f = document.createElement('iframe');
-          f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(v.youtube) + '?autoplay=1&rel=0';
+          f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(v.youtube) + '?autoplay=1&playsinline=1&rel=0';
           f.title = 'Video: how to use the ' + label;
           f.allow = 'autoplay; encrypted-media; picture-in-picture'; f.allowFullscreen = true;
           screen.replaceChild(f, btn);
@@ -148,46 +164,24 @@ var TILICHO = {
       }
     });
 
-    function restart() {
+    var restart = function () {
       if (!watch.getAnimations) return;
       watch.getAnimations({ subtree: true }).forEach(function (a) { a.currentTime = 0; });
-    }
-    function syncVideoState() {
-      var pane = player.querySelector('[data-pane="' + current + '"]');
+    };
+    var current = function () { var r = watch.querySelector('.demo-radio:checked'); return r ? r.value : 'wand'; };
+    var sync = function () {
+      var key = current();
+      watch.setAttribute('data-current', key);   // fallback for browsers without :has()
+      var pane = player.querySelector('[data-pane="' + key + '"]');
       var isVideo = pane.getAttribute('data-video') === '1';
       player.classList.toggle('has-video', isVideo);
       $$('[data-steps]', watch).forEach(function (ol) { ol.classList.toggle('is-static', isVideo); });
-    }
-    function select(key, focus) {
-      current = key;
-      tabs.forEach(function (t) {
-        var on = t.getAttribute('data-tab') === key;
-        t.setAttribute('aria-selected', String(on));
-        t.tabIndex = on ? 0 : -1;
-        if (on && focus) t.focus();
-      });
-      $$('[data-pane]', player).forEach(function (p) {
-        var on = p.getAttribute('data-pane') === key;
-        p.hidden = !on;
-        p.classList.toggle('is-active', on);
-        if (!on) { var vid = p.querySelector('video'); if (vid) vid.pause(); }
-      });
-      $$('[data-steps]', watch).forEach(function (ol) { ol.hidden = ol.getAttribute('data-steps') !== key; });
-      var note = watch.querySelector('.flush-note'); if (note) note.hidden = key !== 'wand';
-      player.setAttribute('data-current', key);
-      syncVideoState();
-      requestAnimationFrame(restart);
-    }
-    tabs.forEach(function (t, i) {
-      t.addEventListener('click', function () { select(t.getAttribute('data-tab')); });
-      t.addEventListener('keydown', function (e) {
-        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-          var n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
-          select(n.getAttribute('data-tab'), true);
-        }
-      });
+      $$('video', player).forEach(function (v) { if (!v.closest('[data-pane="' + key + '"]')) v.pause(); });
+    };
+    $$('.demo-radio', watch).forEach(function (r) {
+      r.addEventListener('change', function () { sync(); requestAnimationFrame(restart); });
     });
-    syncVideoState();
+    sync();
 
     var toggleBtn = player.querySelector('[data-action="toggle"]');
     toggleBtn.addEventListener('click', function () {
@@ -199,97 +193,15 @@ var TILICHO = {
     player.querySelector('[data-action="restart"]').addEventListener('click', restart);
   }
 
-  /* ---------- Drain stick fragrance switcher ---------- */
+  /* ---------- Drain stick fragrance (CSS does the switching; this is a fallback for older browsers) ---------- */
   var drainCard = document.querySelector('.prod-drain');
   if (drainCard) {
-    var img = drainCard.querySelector('.pouch-img');
-    var word = drainCard.querySelector('.frag-word');
-    var nameEl = drainCard.querySelector('.variant-name');
-    var descEl = drainCard.querySelector('.variant-desc');
+    var checkedF = drainCard.querySelector('input[name="fragrance"]:checked');
+    if (checkedF) drainCard.setAttribute('data-fragrance', checkedF.value);
     drainCard.addEventListener('change', function (e) {
-      var input = e.target;
-      if (input.name !== 'fragrance') return;
-      var key = input.getAttribute('data-img');
-      drainCard.setAttribute('data-fragrance', input.value);
-      nameEl.textContent = input.value;
-      descEl.textContent = input.getAttribute('data-desc');
-      img.classList.add('is-swapping'); if (word) word.classList.add('is-swapping');
-      var next = new Image();
-      next.onload = next.onerror = function () {
-        setTimeout(function () {
-          img.srcset = 'images/pouch-' + key + '-360.webp 360w, images/pouch-' + key + '-600.webp 600w';
-          img.src = 'images/pouch-' + key + '-360.webp';
-          img.alt = 'Tilicho ' + input.value + ' drain cleaning sticks pouch with 12 blue sticks';
-          if (word) { word.textContent = input.value; word.classList.remove('is-swapping'); }
-          img.classList.remove('is-swapping');
-        }, reduceMotion ? 0 : 220);
-      };
-      next.src = 'images/pouch-' + key + '-360.webp';
+      if (e.target.name === 'fragrance') drainCard.setAttribute('data-fragrance', e.target.value);
     });
-    drainCard.addEventListener('pointerenter', function () {
-      ['lavender', 'pine', 'ocean'].forEach(function (k) { new Image().src = 'images/pouch-' + k + '-360.webp'; });
-    }, { once: true });
   }
-
-  /* ---------- Order buttons → WhatsApp with pre-filled message ---------- */
-  document.addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-order], [data-notify]');
-    if (!btn) return;
-    e.preventDefault();
-    var msg;
-    if (btn.hasAttribute('data-notify')) {
-      msg = 'Hello Tilicho! Please let me know when ' + btn.getAttribute('data-notify') + ' is available.';
-    } else if (btn.getAttribute('data-order') === 'drain') {
-      var f = document.querySelector('input[name="fragrance"]:checked');
-      msg = 'Hello Tilicho! I would like to order Drain Cleaning Sticks, ' + (f ? f.value : 'Lemon') +
-        ' fragrance (pack of 12 sticks), NPR 370.\nQuantity: 1\nName:\nDelivery address:';
-    } else {
-      msg = 'Hello Tilicho! I would like to order the Disposable Toilet Wand (box of 16 heads), NPR 1,500.' +
-        '\nPlease include the free drain stick launch offer if still available.\nQuantity: 1\nName:\nDelivery address:';
-    }
-    openWhatsApp(msg);
-  });
-
-  /* ---------- Forms ---------- */
-  function validate(form) {
-    var ok = true;
-    $$('[required]', form).forEach(function (f) {
-      var bad = !f.value.trim();
-      f.setAttribute('aria-invalid', bad ? 'true' : 'false');
-      if (bad && ok) { f.focus(); ok = false; }
-    });
-    var err = form.querySelector('.form-error');
-    if (err) err.hidden = ok;
-    return ok;
-  }
-  function val(form, name) { var f = form.elements[name]; return f ? f.value.trim() : ''; }
-
-  var dForm = document.getElementById('distributor-form');
-  if (dForm) dForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    if (!validate(dForm)) return;
-    openWhatsApp('Hello Tilicho! I am interested in becoming a distributor.' +
-      '\nName: ' + val(dForm, 'name') + '\nBusiness: ' + val(dForm, 'business') +
-      '\nCity/District: ' + val(dForm, 'city') + '\nPhone: ' + val(dForm, 'phone') +
-      (val(dForm, 'message') ? '\nMessage: ' + val(dForm, 'message') : ''));
-  });
-
-  var cForm = document.getElementById('contact-form');
-  if (cForm) cForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    if (!validate(cForm)) return;
-    var name = val(cForm, 'name'), phone = val(cForm, 'phone'), message = val(cForm, 'message');
-    var via = e.submitter ? e.submitter.value : 'whatsapp';
-    if (via === 'email') {
-      window.location.href = 'mailto:' + C.email + '?subject=' + encodeURIComponent('Website enquiry from ' + name) +
-        '&body=' + encodeURIComponent(message + '\n\nName: ' + name + '\nPhone: ' + phone);
-    } else {
-      openWhatsApp('Hello Tilicho! My name is ' + name + ' (' + phone + ').\n' + message);
-    }
-  });
-  $$('.form [required]').forEach(function (f) {
-    f.addEventListener('input', function () { if (f.value.trim()) f.setAttribute('aria-invalid', 'false'); });
-  });
 
   /* ---------- Reels ---------- */
   var reelRow = document.getElementById('reel-row');
@@ -300,48 +212,40 @@ var TILICHO = {
     var esc = function (t) { return String(t || '').replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
     var typeOf = function (r) { return r.type === 'product' ? 'product' : 'review'; };
     var posterOf = function (r) { return r.poster || (r.youtube ? 'https://i.ytimg.com/vi/' + encodeURIComponent(r.youtube) + '/hqdefault.jpg' : ''); };
-    var html = '';
-    reels.forEach(function (r, i) {
-      var t = typeOf(r), pst = posterOf(r);
-      var media = pst ? '<img src="' + esc(pst) + '" alt="" loading="lazy" decoding="async">'
-        : (r.mp4 ? '<video src="' + esc(r.mp4) + '#t=0.1" muted playsinline preload="metadata" tabindex="-1" aria-hidden="true"></video>' : '');
-      html += '<li class="reel-item" data-type="' + t + '"><button class="reel" type="button" data-reel="' + i + '" aria-label="Play ' + TYPE[t] + ': ' + esc(r.title) + (r.name ? ', ' + esc(r.name) : '') + '">' +
-        '<span class="reel-media">' + media + '</span><span class="reel-tag">' + TYPE[t] + '</span>' +
-        '<span class="reel-play"><svg aria-hidden="true"><use href="#i-play"/></svg></span>' +
-        '<span class="reel-cap"><b>' + esc(r.title) + '</b>' + (r.name ? '<span>' + esc(r.name) + '</span>' : '') + '</span></button></li>';
-    });
-    if (!reels.length) {
-      [['review', 'Customer reels coming soon'], ['product', 'Product videos coming soon'], ['review', 'Customer reels coming soon']].forEach(function (ph) {
-        html += '<li class="reel-item" data-type="' + ph[0] + '"><div class="reel reel-empty"><span class="reel-tag">' + TYPE[ph[0]] + '</span>' +
-          '<span class="reel-empty-ico"><svg aria-hidden="true"><use href="#i-clock"/></svg></span><span class="reel-cap"><b>' + ph[1] + '</b></span></div></li>';
+    if (reels.length) {
+      var shareCard = reelRow.querySelector('.reel-share');
+      var shareHtml = shareCard ? shareCard.parentNode.outerHTML : '';
+      var html = '';
+      reels.forEach(function (r, i) {
+        var t = typeOf(r), pst = posterOf(r);
+        var media = pst ? '<img src="' + esc(pst) + '" alt="" loading="lazy" decoding="async">'
+          : (r.mp4 ? '<video src="' + esc(r.mp4) + '#t=0.1" muted playsinline preload="metadata" tabindex="-1" aria-hidden="true"></video>' : '');
+        var inner = '<span class="reel-media">' + media + '</span><span class="reel-tag">' + TYPE[t] + '</span>' +
+          '<span class="reel-play"><svg aria-hidden="true"><use href="#i-play"/></svg></span>' +
+          '<span class="reel-cap"><b>' + esc(r.title) + '</b>' + (r.name ? '<span>' + esc(r.name) + '</span>' : '') + '</span>';
+        var aria = 'Play ' + TYPE[t] + ': ' + esc(r.title) + (r.name ? ', ' + esc(r.name) : '');
+        // Instagram / TikTok / Facebook reels are real links; our own videos open in the player
+        html += '<li class="reel-item" data-type="' + t + '">' + ((!r.mp4 && !r.youtube)
+          ? '<a class="reel" href="' + esc(r.link) + '" target="_blank" rel="noopener" aria-label="' + aria + '">' + inner + '</a>'
+          : '<button class="reel" type="button" data-reel="' + i + '" aria-label="' + aria + '">' + inner + '</button>') + '</li>';
       });
+      reelRow.innerHTML = html + shareHtml;
     }
-    html += '<li class="reel-item" data-type="all"><div class="reel reel-share"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg>' +
-      '<b>Love Tilicho?</b><span>Send us a short video review on WhatsApp and you could be featured here.</span>' +
-      '<a class="btn btn-white btn-sm" href="#contact" data-share-reel>Send my video</a></div></li>';
-    reelRow.innerHTML = html;
+    $$('[data-share-reel]', reelRow).forEach(function (a) { setWa(a, MSG.share); });
 
-    reelRow.addEventListener('click', function (e) {
-      if (e.target.closest('[data-share-reel]')) {
-        e.preventDefault();
-        openWhatsApp('Hello Tilicho! I would like to share a video review of my Tilicho product.');
-      }
-    });
-
-    $$('.reel-filter').forEach(function (f) {
-      f.addEventListener('click', function () {
-        var want = f.getAttribute('data-filter');
-        $$('.reel-filter').forEach(function (x) { x.setAttribute('aria-pressed', String(x === f)); });
+    $$('.reel-filters input').forEach(function (r) {
+      r.addEventListener('change', function () {
+        // fallback for browsers without :has()
         $$('.reel-item', reelRow).forEach(function (it) {
           var ty = it.getAttribute('data-type');
-          it.hidden = !(want === 'all' || ty === 'all' || ty === want);
+          it.style.display = (r.value === 'all' || ty === 'all' || ty === r.value) ? '' : 'none';
         });
         reelRow.scrollTo({ left: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
       });
     });
     $$('[data-reel-scroll]').forEach(function (b) {
       b.addEventListener('click', function () {
-        var card = reelRow.querySelector('.reel-item:not([hidden])');
+        var card = reelRow.querySelector('.reel-item');
         var stepW = card ? card.getBoundingClientRect().width + 14 : 260;
         reelRow.scrollBy({ left: +b.getAttribute('data-reel-scroll') * stepW * 2, behavior: reduceMotion ? 'auto' : 'smooth' });
       });
@@ -351,15 +255,16 @@ var TILICHO = {
       var stage = reelModal.querySelector('.reel-stage');
       var cap = reelModal.querySelector('.reel-modal-cap');
       var cur = -1;
-      var visibleIdx = function () { return $$('.reel-item:not([hidden]) [data-reel]', reelRow).map(function (b) { return +b.getAttribute('data-reel'); }); };
+      var visibleIdx = function () {
+        return $$('[data-reel]', reelRow).filter(function (b) { return b.offsetParent !== null; }).map(function (b) { return +b.getAttribute('data-reel'); });
+      };
       var closeReel = function () {
         stage.innerHTML = '';
         if (reelModal.open && reelModal.close) reelModal.close(); else reelModal.removeAttribute('open');
         document.body.style.overflow = '';
       };
       var showReel = function (i) {
-        var r = reels[i]; if (!r) return;
-        if (!r.mp4 && !r.youtube) { window.open(r.link, '_blank', 'noopener'); return; }
+        var r = reels[i]; if (!r || (!r.mp4 && !r.youtube)) return;
         cur = i;
         stage.innerHTML = '';
         if (r.mp4) {
@@ -405,63 +310,64 @@ var TILICHO = {
     }
   }
 
-  /* ---------- FAQ accordion ---------- */
-  $$('.acc-btn').forEach(function (btn, i) {
-    var acc = btn.closest('.acc');
-    var panel = acc.querySelector('.acc-panel');
-    var id = 'faq-panel-' + (i + 1);
-    panel.id = id; panel.setAttribute('role', 'region');
-    btn.id = id + '-btn'; panel.setAttribute('aria-labelledby', btn.id);
-    btn.setAttribute('aria-controls', id);
-    btn.addEventListener('click', function () {
-      var open = btn.getAttribute('aria-expanded') !== 'true';
-      btn.setAttribute('aria-expanded', String(open));
-      acc.classList.toggle('is-open', open);
+  /* ---------- Forms → WhatsApp / email ---------- */
+  function validate(form) {
+    var ok = true;
+    $$('[required]', form).forEach(function (f) {
+      var bad = !f.value.trim();
+      f.setAttribute('aria-invalid', bad ? 'true' : 'false');
+      if (bad && ok) { f.focus(); ok = false; }
     });
-  });
-
-  /* ---------- Distributor form reveal ---------- */
-  var distBtn = document.querySelector('[data-open-dist]');
-  if (distBtn && dForm) distBtn.addEventListener('click', function () {
-    var open = dForm.hidden;
-    dForm.hidden = !open;
-    distBtn.setAttribute('aria-expanded', String(open));
-    distBtn.textContent = open ? 'Close form' : 'Apply now';
-    distBtn.closest('.dist').classList.toggle('is-open', open);
-    if (open) dForm.querySelector('input').focus();
-  });
-
-  /* ---------- Count-up (altitude) ---------- */
-  function countUp(el) {
-    var to = parseInt(el.getAttribute('data-to'), 10);
-    if (reduceMotion || !to) return;
-    var start = null, dur = 1400;
-    function step(ts) {
-      if (!start) start = ts;
-      var p = Math.min((ts - start) / dur, 1), eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(to * eased).toLocaleString('en-US');
-      if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
+    var err = form.querySelector('.form-error');
+    if (err) err.hidden = ok;
+    return ok;
   }
+  function val(form, name) { var f = form.elements[name]; return f ? f.value.trim() : ''; }
 
-  /* ---------- Scroll reveal, count-up, pause off-screen loops, floating button ---------- */
+  var dForm = document.getElementById('distributor-form');
+  if (dForm) dForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!validate(dForm)) return;
+    openWhatsApp('Hello Tilicho! I am interested in becoming a distributor.' +
+      '\nName: ' + val(dForm, 'name') + '\nBusiness: ' + val(dForm, 'business') +
+      '\nCity/District: ' + val(dForm, 'city') + '\nPhone: ' + val(dForm, 'phone') +
+      (val(dForm, 'message') ? '\nMessage: ' + val(dForm, 'message') : ''));
+  });
+
+  var cForm = document.getElementById('contact-form');
+  if (cForm) cForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!validate(cForm)) return;
+    var name = val(cForm, 'name'), phone = val(cForm, 'phone'), message = val(cForm, 'message');
+    var via = e.submitter ? e.submitter.value : 'whatsapp';
+    if (via === 'email') {
+      window.location.href = 'mailto:' + C.email + '?subject=' + encodeURIComponent('Website enquiry from ' + name) +
+        '&body=' + encodeURIComponent(message + '\n\nName: ' + name + '\nPhone: ' + phone);
+    } else {
+      openWhatsApp('Hello Tilicho! My name is ' + name + ' (' + phone + ').\n' + message);
+    }
+  });
+  $$('.form [required]').forEach(function (f) {
+    f.addEventListener('input', function () { if (f.value.trim()) f.setAttribute('aria-invalid', 'false'); });
+  });
+
+  /* ---------- Scroll reveal, pause off-screen loops, floating buttons ---------- */
   if ('IntersectionObserver' in window) {
     var revealObs = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (!en.isIntersecting) return;
         en.target.classList.add('is-visible');
-        $$('.count', en.target).forEach(countUp);
         revealObs.unobserve(en.target);
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
     $$('.reveal').forEach(function (el) {
-      // gentle stagger for sibling blocks revealed together
       var sibs = el.parentElement ? Array.prototype.filter.call(el.parentElement.children, function (c) { return c.classList.contains('reveal'); }) : [];
       var i = sibs.indexOf(el);
       if (i > 0) el.style.transitionDelay = Math.min(i, 4) * 90 + 'ms';
       revealObs.observe(el);
     });
+    // safety net: never leave content invisible
+    setTimeout(function () { $$('.reveal').forEach(function (el) { if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('is-visible'); }); }, 2500);
 
     var animObs = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { en.target.classList.toggle('is-offscreen', !en.isIntersecting); });
@@ -472,11 +378,10 @@ var TILICHO = {
     var waFloat = document.querySelector('.wa-float');
     var buybar = document.querySelector('.buybar');
     var heroVisible = true, contactVisible = false, typing = false;
-    function syncBars() {
+    var syncBars = function () {
       if (waFloat) waFloat.classList.toggle('is-hidden', heroVisible);
-      // sticky order bar (phones): hidden on the hero, at the contact form, and while typing
       if (buybar) buybar.classList.toggle('is-hidden', heroVisible || contactVisible || typing);
-    }
+    };
     if (hero) {
       if (waFloat) waFloat.classList.add('is-hidden');
       new IntersectionObserver(function (entries) { heroVisible = entries[0].isIntersecting; syncBars(); }).observe(hero);
@@ -485,8 +390,8 @@ var TILICHO = {
     if (contactSec && buybar) {
       new IntersectionObserver(function (entries) { contactVisible = entries[0].isIntersecting; syncBars(); }, { threshold: 0.15 }).observe(contactSec);
     }
-    document.addEventListener('focusin', function (e) { if (e.target.matches('input, textarea')) { typing = true; syncBars(); } });
-    document.addEventListener('focusout', function (e) { if (e.target.matches('input, textarea')) { typing = false; syncBars(); } });
+    document.addEventListener('focusin', function (e) { if (e.target.matches('input:not([type="radio"]), textarea')) { typing = true; syncBars(); } });
+    document.addEventListener('focusout', function (e) { if (e.target.matches('input:not([type="radio"]), textarea')) { typing = false; syncBars(); } });
   } else {
     $$('.reveal').forEach(function (el) { el.classList.add('is-visible'); });
   }

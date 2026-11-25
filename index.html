@@ -134,7 +134,7 @@
         </ul>
       </nav>
       <div class="header-actions">
-        <a class="icon-btn" data-link="whatsapp" href="#contact" aria-label="Chat with us on WhatsApp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+        <a class="icon-btn" data-link="whatsapp" href="https://wa.me/" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
         <a class="btn btn-buy btn-sm" href="#shop">Buy now</a>
         <button class="nav-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Open menu"><span></span><span></span><span></span></button>
       </div>
@@ -151,7 +151,7 @@
             <h1 id="hero-title">Clean your toilet without touching a dirty brush.</h1>
             <p class="hero-lead">Click on a fresh head, scrub, then press to drop it in the bin. Nothing to wash, nothing left behind.</p>
             <div class="hero-ctas">
-              <a class="btn btn-buy btn-lg" href="#contact" data-order="wand"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>Order on WhatsApp</a>
+              <a class="btn btn-buy btn-lg" href="https://wa.me/?text=Hello%20Tilicho%21%20I%20would%20like%20to%20order%20the%20Disposable%20Toilet%20Wand%20%28box%20of%2016%20heads%29%2C%20NPR%201%2C500.%0APlease%20include%20the%20free%20drain%20stick%20launch%20offer%20if%20still%20available.%0AQuantity%3A%201%0AName%3A%0ADelivery%20address%3A" target="_blank" rel="noopener" data-order="wand"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>Order on WhatsApp</a>
               <a class="btn btn-quiet btn-lg" href="#how"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>See how it works</a>
             </div>
             <p class="hero-price"><span class="price">NPR 1,500</span> <span>· Handle, caddy &amp; 16 heads</span></p>
@@ -200,7 +200,7 @@
               <p class="card-note">+ Free drain stick for our first 500 customers</p>
               <div class="card-foot">
                 <span class="price">NPR 1,500</span>
-                <a class="btn btn-buy btn-sm" href="#contact" data-order="wand">Order</a>
+                <a class="btn btn-buy btn-sm" href="https://wa.me/?text=Hello%20Tilicho%21%20I%20would%20like%20to%20order%20the%20Disposable%20Toilet%20Wand%20%28box%20of%2016%20heads%29%2C%20NPR%201%2C500.%0APlease%20include%20the%20free%20drain%20stick%20launch%20offer%20if%20still%20available.%0AQuantity%3A%201%0AName%3A%0ADelivery%20address%3A" target="_blank" rel="noopener" data-order="wand">Order</a>
               </div>
             </div>
           </article>
@@ -217,7 +217,7 @@
               <p class="card-dots"><span class="sr-only">Fragrances: Lemon, Lavender, Pine, Ocean</span><i style="--c:#fed21c"></i><i style="--c:#6c4fa3"></i><i style="--c:#1d7a4b"></i><i style="--c:#0779ad"></i></p>
               <div class="card-foot">
                 <span class="price">NPR 370</span>
-                <a class="btn btn-buy btn-sm" href="#drain-sticks">Choose</a>
+                <a class="btn btn-buy btn-sm" href="#drain-sticks">Choose fragrance</a>
               </div>
             </div>
           </article>
@@ -233,7 +233,7 @@
               <p class="card-desc">For whiter, fresher bathrooms and floors.</p>
               <div class="card-foot">
                 <span class="soon-label">Coming soon</span>
-                <a class="btn btn-quiet btn-sm" href="#contact" data-notify="Tilicho Bleach">Notify me</a>
+                <a class="btn btn-quiet btn-sm" href="https://wa.me/?text=Hello%20Tilicho%21%20Please%20let%20me%20know%20when%20Tilicho%20Bleach%20is%20available." target="_blank" rel="noopener" data-notify="Tilicho Bleach">Notify me</a>
               </div>
             </div>
           </article>
@@ -249,7 +249,7 @@
               <p class="card-desc">For streak-free windows and mirrors.</p>
               <div class="card-foot">
                 <span class="soon-label">Coming soon</span>
-                <a class="btn btn-quiet btn-sm" href="#contact" data-notify="Tilicho Glass Cleaner">Notify me</a>
+                <a class="btn btn-quiet btn-sm" href="https://wa.me/?text=Hello%20Tilicho%21%20Please%20let%20me%20know%20when%20Tilicho%20Glass%20Cleaner%20is%20available." target="_blank" rel="noopener" data-notify="Tilicho Glass Cleaner">Notify me</a>
               </div>
             </div>
           </article>
@@ -268,12 +268,14 @@
 
         <div class="watch-grid">
           <div class="watch-player reveal">
-            <div class="tabs" role="tablist" aria-label="Choose a product video">
-              <button class="tab" role="tab" id="tab-wand" aria-controls="pane-wand" aria-selected="true" data-tab="wand">Toilet wand</button>
-              <button class="tab" role="tab" id="tab-drain" aria-controls="pane-drain" aria-selected="false" data-tab="drain" tabindex="-1">Drain sticks</button>
+            <div class="tabs" role="radiogroup" aria-label="Choose a product video">
+              <input class="demo-radio sr-only" type="radio" name="demo" id="demo-wand" value="wand" checked>
+              <label class="tab" for="demo-wand">Toilet wand</label>
+              <input class="demo-radio sr-only" type="radio" name="demo" id="demo-drain" value="drain">
+              <label class="tab" for="demo-drain">Drain sticks</label>
             </div>
             <div class="player" data-player>
-              <div class="pane is-active" id="pane-wand" role="tabpanel" aria-labelledby="tab-wand" data-pane="wand">
+              <div class="pane" id="pane-wand" data-pane="wand">
                 <div class="screen">
                   <span class="screen-chip">Animated demo</span>
                   <svg class="demo demo-wand" viewBox="0 0 420 280" role="img" aria-labelledby="demo-wand-title">
@@ -309,7 +311,7 @@
                   </svg>
                 </div>
               </div>
-              <div class="pane" id="pane-drain" role="tabpanel" aria-labelledby="tab-drain" data-pane="drain" hidden>
+              <div class="pane" id="pane-drain" data-pane="drain">
                 <div class="screen">
                   <span class="screen-chip">Animated demo</span>
                   <svg class="demo demo-drain" viewBox="0 0 420 280" role="img" aria-labelledby="demo-drain-title">
@@ -358,7 +360,7 @@
               <li class="step s2"><span class="step-n">2</span><div><h3>Scrub the bowl</h3><p>Around the bowl, under the rim and along the waterline.</p></div></li>
               <li class="step s3"><span class="step-n">3</span><div><h3>Press to drop it in the bin</h3><p>Hold it over the bin and press the button. Done.</p></div></li>
             </ol>
-            <ol class="steps steps-drain" data-steps="drain" hidden>
+            <ol class="steps steps-drain" data-steps="drain">
               <li class="step s1"><span class="step-n">1</span><div><h3>Drop one stick in</h3><p>Push a stick into the drain of your sink, basin or bathroom pipe.</p></div></li>
               <li class="step s2"><span class="step-n">2</span><div><h3>Run water, or leave it</h3><p>It cleans, deodorises and keeps the drain flowing.</p></div></li>
               <li class="step s3"><span class="step-n">3</span><div><h3>Replace every 3 days</h3><p>12 sticks per pack, so a fresh one is always ready.</p></div></li>
@@ -389,7 +391,7 @@
           </ul>
           <div class="buy-row">
             <div><span class="price price-lg">NPR 1,500</span><span class="price-sub">per box · free drain stick for first 500 customers</span></div>
-            <a class="btn btn-buy btn-lg" href="#contact" data-order="wand"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>Order on WhatsApp</a>
+            <a class="btn btn-buy btn-lg" href="https://wa.me/?text=Hello%20Tilicho%21%20I%20would%20like%20to%20order%20the%20Disposable%20Toilet%20Wand%20%28box%20of%2016%20heads%29%2C%20NPR%201%2C500.%0APlease%20include%20the%20free%20drain%20stick%20launch%20offer%20if%20still%20available.%0AQuantity%3A%201%0AName%3A%0ADelivery%20address%3A" target="_blank" rel="noopener" data-order="wand"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>Order on WhatsApp</a>
           </div>
         </div>
       </div>
@@ -397,9 +399,12 @@
 
     <!-- ================= DRAIN STICKS SPOTLIGHT ================= -->
     <section class="section section-tint" id="drain-sticks" aria-labelledby="drain-title">
-      <div class="container feature feature-rev prod-drain" data-fragrance="Lemon">
+      <div class="container feature feature-rev prod-drain">
         <div class="feature-media drain-stage reveal">
-          <img class="pouch-img" src="images/pouch-lemon-360.webp" srcset="images/pouch-lemon-360.webp 360w, images/pouch-lemon-600.webp 600w" sizes="(min-width: 900px) 320px, 66vw" width="360" height="431" loading="lazy" decoding="async" alt="Tilicho Lemon drain cleaning sticks pouch with 12 blue sticks">
+          <img class="pouch-img" data-frag="Lemon" src="images/pouch-lemon-360.webp" srcset="images/pouch-lemon-360.webp 360w, images/pouch-lemon-600.webp 600w" sizes="(min-width: 900px) 320px, 66vw" width="360" height="431" loading="lazy" decoding="async" alt="Tilicho Lemon drain cleaning sticks pouch with 12 blue sticks">
+          <img class="pouch-img" data-frag="Lavender" src="images/pouch-lavender-360.webp" srcset="images/pouch-lavender-360.webp 360w, images/pouch-lavender-600.webp 600w" sizes="(min-width: 900px) 320px, 66vw" width="360" height="431" loading="lazy" decoding="async" alt="Tilicho Lavender drain cleaning sticks pouch">
+          <img class="pouch-img" data-frag="Pine" src="images/pouch-pine-360.webp" srcset="images/pouch-pine-360.webp 360w, images/pouch-pine-600.webp 600w" sizes="(min-width: 900px) 320px, 66vw" width="360" height="431" loading="lazy" decoding="async" alt="Tilicho Pine drain cleaning sticks pouch">
+          <img class="pouch-img" data-frag="Ocean" src="images/pouch-ocean-360.webp" srcset="images/pouch-ocean-360.webp 360w, images/pouch-ocean-600.webp 600w" sizes="(min-width: 900px) 320px, 66vw" width="360" height="431" loading="lazy" decoding="async" alt="Tilicho Ocean drain cleaning sticks pouch">
         </div>
         <div class="feature-copy reveal">
           <p class="eyebrow">Kitchen &amp; bathroom</p>
@@ -407,13 +412,14 @@
           <p class="lead">Drop one stick into the drain. It cleans, deodorises and keeps water flowing. Replace it every 3 days.</p>
 
           <fieldset class="variants">
-            <legend>Fragrance: <strong class="variant-name">Lemon</strong> <span class="variant-desc">fresh citrus</span></legend>
+            <legend>Choose your fragrance</legend>
             <div class="variant-list">
-              <label class="variant" style="--c:#fed21c"><input type="radio" name="fragrance" value="Lemon" data-img="lemon" data-desc="fresh citrus" checked><span>Lemon</span></label>
-              <label class="variant" style="--c:#6c4fa3"><input type="radio" name="fragrance" value="Lavender" data-img="lavender" data-desc="calming"><span>Lavender</span></label>
-              <label class="variant" style="--c:#1d7a4b"><input type="radio" name="fragrance" value="Pine" data-img="pine" data-desc="Himalayan pine"><span>Pine</span></label>
-              <label class="variant" style="--c:#0779ad"><input type="radio" name="fragrance" value="Ocean" data-img="ocean" data-desc="cool ocean breeze"><span>Ocean</span></label>
+              <label class="variant" style="--c:#fed21c"><input type="radio" name="fragrance" value="Lemon" checked><span>Lemon</span></label>
+              <label class="variant" style="--c:#6c4fa3"><input type="radio" name="fragrance" value="Lavender"><span>Lavender</span></label>
+              <label class="variant" style="--c:#1d7a4b"><input type="radio" name="fragrance" value="Pine"><span>Pine</span></label>
+              <label class="variant" style="--c:#0779ad"><input type="radio" name="fragrance" value="Ocean"><span>Ocean</span></label>
             </div>
+            <p class="frag-desc"><span data-frag="Lemon"><b>Lemon</b> · fresh citrus</span><span data-frag="Lavender"><b>Lavender</b> · calming</span><span data-frag="Pine"><b>Pine</b> · Himalayan pine</span><span data-frag="Ocean"><b>Ocean</b> · cool ocean breeze</span></p>
           </fieldset>
 
           <ul class="use-areas" aria-label="Where to use">
@@ -425,7 +431,10 @@
 
           <div class="buy-row">
             <div><span class="price price-lg">NPR 370</span><span class="price-sub">pack of 12 sticks</span></div>
-            <a class="btn btn-buy btn-lg" href="#contact" data-order="drain"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>Order on WhatsApp</a>
+            <a class="btn btn-buy btn-lg frag-order" data-frag="Lemon" href="https://wa.me/?text=Hello%20Tilicho%21%20I%20would%20like%20to%20order%20Drain%20Cleaning%20Sticks%2C%20Lemon%20fragrance%20%28pack%20of%2012%20sticks%29%2C%20NPR%20370.%0AQuantity%3A%201%0AName%3A%0ADelivery%20address%3A" target="_blank" rel="noopener" data-order="drain" data-fragrance="Lemon"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>Order Lemon on WhatsApp</a>
+            <a class="btn btn-buy btn-lg frag-order" data-frag="Lavender" href="https://wa.me/?text=Hello%20Tilicho%21%20I%20would%20like%20to%20order%20Drain%20Cleaning%20Sticks%2C%20Lavender%20fragrance%20%28pack%20of%2012%20sticks%29%2C%20NPR%20370.%0AQuantity%3A%201%0AName%3A%0ADelivery%20address%3A" target="_blank" rel="noopener" data-order="drain" data-fragrance="Lavender"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>Order Lavender on WhatsApp</a>
+            <a class="btn btn-buy btn-lg frag-order" data-frag="Pine" href="https://wa.me/?text=Hello%20Tilicho%21%20I%20would%20like%20to%20order%20Drain%20Cleaning%20Sticks%2C%20Pine%20fragrance%20%28pack%20of%2012%20sticks%29%2C%20NPR%20370.%0AQuantity%3A%201%0AName%3A%0ADelivery%20address%3A" target="_blank" rel="noopener" data-order="drain" data-fragrance="Pine"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>Order Pine on WhatsApp</a>
+            <a class="btn btn-buy btn-lg frag-order" data-frag="Ocean" href="https://wa.me/?text=Hello%20Tilicho%21%20I%20would%20like%20to%20order%20Drain%20Cleaning%20Sticks%2C%20Ocean%20fragrance%20%28pack%20of%2012%20sticks%29%2C%20NPR%20370.%0AQuantity%3A%201%0AName%3A%0ADelivery%20address%3A" target="_blank" rel="noopener" data-order="drain" data-fragrance="Ocean"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>Order Ocean on WhatsApp</a>
           </div>
           <p class="fine">Keep away from children. Avoid contact with eyes. Do not mix with other cleaners.</p>
         </div>
@@ -440,17 +449,22 @@
           <p>Customer reviews and quick product videos. Tap a reel to watch.</p>
         </div>
         <div class="reel-bar reveal">
-          <div class="reel-filters" role="group" aria-label="Show reels">
-            <button class="reel-filter" type="button" data-filter="all" aria-pressed="true">All</button>
-            <button class="reel-filter" type="button" data-filter="review" aria-pressed="false">Customer reviews</button>
-            <button class="reel-filter" type="button" data-filter="product" aria-pressed="false">Product videos</button>
+          <div class="reel-filters" role="radiogroup" aria-label="Show reels">
+            <input class="sr-only" type="radio" name="reelf" id="rf-all" value="all" checked><label class="reel-filter" for="rf-all">All</label>
+            <input class="sr-only" type="radio" name="reelf" id="rf-review" value="review"><label class="reel-filter" for="rf-review">Customer reviews</label>
+            <input class="sr-only" type="radio" name="reelf" id="rf-product" value="product"><label class="reel-filter" for="rf-product">Product videos</label>
           </div>
           <div class="reel-arrows">
             <button class="icon-btn" type="button" data-reel-scroll="-1" aria-label="Scroll reels left"><svg style="transform:scaleX(-1)" aria-hidden="true"><use href="#i-arrow"/></svg></button>
             <button class="icon-btn" type="button" data-reel-scroll="1" aria-label="Scroll reels right"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
           </div>
         </div>
-        <ul class="reel-row reveal" id="reel-row" aria-label="Video reels"></ul>
+        <ul class="reel-row reveal" id="reel-row" aria-label="Video reels">
+          <li class="reel-item" data-type="review"><div class="reel reel-empty"><span class="reel-tag">Customer review</span><span class="reel-empty-ico"><svg aria-hidden="true"><use href="#i-clock"/></svg></span><span class="reel-cap"><b>Customer reels coming soon</b></span></div></li>
+          <li class="reel-item" data-type="product"><div class="reel reel-empty"><span class="reel-tag">Product video</span><span class="reel-empty-ico"><svg aria-hidden="true"><use href="#i-clock"/></svg></span><span class="reel-cap"><b>Product videos coming soon</b></span></div></li>
+          <li class="reel-item" data-type="review"><div class="reel reel-empty"><span class="reel-tag">Customer review</span><span class="reel-empty-ico"><svg aria-hidden="true"><use href="#i-clock"/></svg></span><span class="reel-cap"><b>Customer reels coming soon</b></span></div></li>
+          <li class="reel-item" data-type="all"><div class="reel reel-share"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg><b>Love Tilicho?</b><span>Send us a short video review on WhatsApp and you could be featured here.</span><a class="btn btn-white btn-sm" href="https://wa.me/?text=Hello%20Tilicho%21%20I%20would%20like%20to%20share%20a%20video%20review%20of%20my%20Tilicho%20product." target="_blank" rel="noopener" data-share-reel>Send my video</a></div></li>
+        </ul>
       </div>
     </section>
 
@@ -488,38 +502,38 @@
           <h2 id="faq-title">Frequently asked questions</h2>
         </div>
         <div class="accordion reveal">
-          <div class="acc">
-            <h3><button class="acc-btn" type="button" aria-expanded="false">Where do you deliver, and how long does it take?<svg aria-hidden="true"><use href="#i-chev"/></svg></button></h3>
-            <div class="acc-panel"><div><p>We deliver all over Nepal. Delivery time depends on your location. We'll give you an estimated delivery date when you order on WhatsApp.</p></div></div>
-          </div>
-          <div class="acc">
-            <h3><button class="acc-btn" type="button" aria-expanded="false">Is there a delivery charge?<svg aria-hidden="true"><use href="#i-chev"/></svg></button></h3>
-            <div class="acc-panel"><div><p>Delivery charges depend on where you are. We always confirm the charge with you before we send your order.</p></div></div>
-          </div>
-          <div class="acc">
-            <h3><button class="acc-btn" type="button" aria-expanded="false">How can I pay?<svg aria-hidden="true"><use href="#i-chev"/></svg></button></h3>
-            <div class="acc-panel"><div><p>We'll confirm the payment options for your location when you place your order on WhatsApp.</p></div></div>
-          </div>
-          <div class="acc">
-            <h3><button class="acc-btn" type="button" aria-expanded="false">How long does a pack last?<svg aria-hidden="true"><use href="#i-chev"/></svg></button></h3>
-            <div class="acc-panel"><div><p>A toilet wand box has 16 heads and usually lasts about 6–7 weeks for a normal household. A drain stick pack has 12 sticks. Replace the stick in each drain every 3 days.</p></div></div>
-          </div>
-          <div class="acc">
-            <h3><button class="acc-btn" type="button" aria-expanded="false">Are the heads safe for my toilet and pipes?<svg aria-hidden="true"><use href="#i-chev"/></svg></button></h3>
-            <div class="acc-panel"><div><p>The heads are made to scrub your toilet, not to go down it. <strong>Please do not flush them.</strong> Press the button to drop the used head into a bin. Flushing heads can block pipes and septic tanks.</p></div></div>
-          </div>
-          <div class="acc">
-            <h3><button class="acc-btn" type="button" aria-expanded="false">How does the drain stick work?<svg aria-hidden="true"><use href="#i-chev"/></svg></button></h3>
-            <div class="acc-panel"><div><p>Drop one stick into the drain, then run a little water or leave it to work. It helps clean and deodorise the pipe and keep the drain flowing. Replace it every 3 days. Keep away from children, avoid contact with eyes, and do not mix with other cleaners.</p></div></div>
-          </div>
-          <div class="acc">
-            <h3><button class="acc-btn" type="button" aria-expanded="false">What if my order arrives damaged?<svg aria-hidden="true"><use href="#i-chev"/></svg></button></h3>
-            <div class="acc-panel"><div><p>Message us on WhatsApp within 48 hours of delivery with a photo of the product and the packaging, and we'll arrange a replacement. See our <a href="returns.html">Return &amp; Refund Policy</a>.</p></div></div>
-          </div>
-          <div class="acc">
-            <h3><button class="acc-btn" type="button" aria-expanded="false">Where can I buy Tilicho?<svg aria-hidden="true"><use href="#i-chev"/></svg></button></h3>
-            <div class="acc-panel"><div><p>Right now you can order on this website through WhatsApp, or message us on our social media. Partner stores and distributors across Nepal are coming soon.</p></div></div>
-          </div>
+          <details class="acc">
+            <summary class="acc-btn"><span>Where do you deliver, and how long does it take?</span><svg aria-hidden="true"><use href="#i-chev"/></svg></summary>
+            <div class="acc-panel"><p>We deliver all over Nepal. Delivery time depends on your location. We'll give you an estimated delivery date when you order on WhatsApp.</p></div>
+          </details>
+          <details class="acc">
+            <summary class="acc-btn"><span>Is there a delivery charge?</span><svg aria-hidden="true"><use href="#i-chev"/></svg></summary>
+            <div class="acc-panel"><p>Delivery charges depend on where you are. We always confirm the charge with you before we send your order.</p></div>
+          </details>
+          <details class="acc">
+            <summary class="acc-btn"><span>How can I pay?</span><svg aria-hidden="true"><use href="#i-chev"/></svg></summary>
+            <div class="acc-panel"><p>We'll confirm the payment options for your location when you place your order on WhatsApp.</p></div>
+          </details>
+          <details class="acc">
+            <summary class="acc-btn"><span>How long does a pack last?</span><svg aria-hidden="true"><use href="#i-chev"/></svg></summary>
+            <div class="acc-panel"><p>A toilet wand box has 16 heads and usually lasts about 6–7 weeks for a normal household. A drain stick pack has 12 sticks. Replace the stick in each drain every 3 days.</p></div>
+          </details>
+          <details class="acc">
+            <summary class="acc-btn"><span>Are the heads safe for my toilet and pipes?</span><svg aria-hidden="true"><use href="#i-chev"/></svg></summary>
+            <div class="acc-panel"><p>The heads are made to scrub your toilet, not to go down it. <strong>Please do not flush them.</strong> Press the button to drop the used head into a bin. Flushing heads can block pipes and septic tanks.</p></div>
+          </details>
+          <details class="acc">
+            <summary class="acc-btn"><span>How does the drain stick work?</span><svg aria-hidden="true"><use href="#i-chev"/></svg></summary>
+            <div class="acc-panel"><p>Drop one stick into the drain, then run a little water or leave it to work. It helps clean and deodorise the pipe and keep the drain flowing. Replace it every 3 days. Keep away from children, avoid contact with eyes, and do not mix with other cleaners.</p></div>
+          </details>
+          <details class="acc">
+            <summary class="acc-btn"><span>What if my order arrives damaged?</span><svg aria-hidden="true"><use href="#i-chev"/></svg></summary>
+            <div class="acc-panel"><p>Message us on WhatsApp within 48 hours of delivery with a photo of the product and the packaging, and we'll arrange a replacement. See our <a href="returns.html">Return &amp; Refund Policy</a>.</p></div>
+          </details>
+          <details class="acc">
+            <summary class="acc-btn"><span>Where can I buy Tilicho?</span><svg aria-hidden="true"><use href="#i-chev"/></svg></summary>
+            <div class="acc-panel"><p>Right now you can order on this website through WhatsApp, or message us on our social media. Partner stores and distributors across Nepal are coming soon.</p></div>
+          </details>
         </div>
       </div>
     </section>
@@ -531,9 +545,11 @@
           <div class="dist-copy">
             <h2 id="dist-title">Become a Tilicho distributor</h2>
             <p>Run a shop, supermarket or distribution business? Bring a growing Nepali brand to your area.</p>
-            <button class="btn btn-white btn-lg" type="button" data-open-dist aria-expanded="false" aria-controls="distributor-form">Apply now</button>
+            <a class="btn btn-white btn-lg nojs-only" href="https://wa.me/?text=Hello%20Tilicho%21%20I%20am%20interested%20in%20becoming%20a%20Tilicho%20distributor.%0AName%3A%0ABusiness%3A%0ACity%2FDistrict%3A" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>Apply on WhatsApp</a>
           </div>
-          <form class="form dist-form" id="distributor-form" novalidate hidden>
+          <details class="dist-apply js-only">
+            <summary class="btn btn-white btn-lg"><span class="when-closed">Apply now</span><span class="when-open">Close form</span></summary>
+          <form class="form dist-form" id="distributor-form" novalidate>
             <div class="field"><label for="d-name">Your name</label><input id="d-name" name="name" autocomplete="name" required></div>
             <div class="field"><label for="d-business">Business name</label><input id="d-business" name="business" autocomplete="organization" required></div>
             <div class="field-row">
@@ -544,6 +560,7 @@
             <p class="form-error" role="alert" hidden>Please fill in your name, business, city and phone.</p>
             <button class="btn btn-white btn-lg btn-block" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>Send on WhatsApp</button>
           </form>
+          </details>
         </div>
       </div>
     </section>
@@ -555,15 +572,15 @@
           <h2 id="contact-title">We're here to help</h2>
           <p class="lead">Questions, bulk orders or feedback? Reach us the way you like.</p>
           <ul class="contact-cards">
-            <li><a data-link="whatsapp" href="#contact"><span class="c-ico"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></span><span><b>WhatsApp</b><span data-fill="phoneDisplay">+977 98XXXXXXXX</span></span></a></li>
-            <li><a data-link="viber" href="#contact"><span class="c-ico"><svg aria-hidden="true"><use href="#i-viber"/></svg></span><span><b>Viber</b><span data-fill="phoneDisplay">+977 98XXXXXXXX</span></span></a></li>
-            <li><a data-link="tel" href="#contact"><span class="c-ico"><svg aria-hidden="true"><use href="#i-phone"/></svg></span><span><b>Call us</b><span data-fill="phoneDisplay">+977 98XXXXXXXX</span></span></a></li>
+            <li><a data-link="whatsapp" href="https://wa.me/" target="_blank" rel="noopener"><span class="c-ico"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></span><span><b>WhatsApp</b><span data-fill="phoneDisplay">+977 98XXXXXXXX</span></span></a></li>
+            <li><a data-link="viber" href="viber://chat?number=%2B97798XXXXXXXX"><span class="c-ico"><svg aria-hidden="true"><use href="#i-viber"/></svg></span><span><b>Viber</b><span data-fill="phoneDisplay">+977 98XXXXXXXX</span></span></a></li>
+            <li><a data-link="tel" href="tel:+97798XXXXXXXX"><span class="c-ico"><svg aria-hidden="true"><use href="#i-phone"/></svg></span><span><b>Call us</b><span data-fill="phoneDisplay">+977 98XXXXXXXX</span></span></a></li>
             <li><a data-link="email" href="mailto:info@tilichocare.com"><span class="c-ico"><svg aria-hidden="true"><use href="#i-mail"/></svg></span><span><b>Email</b><span data-fill="email">info@tilichocare.com</span></span></a></li>
           </ul>
           <p class="address"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span data-fill="address">[Your address], Nepal</span></p>
         </div>
 
-        <form class="form contact-form reveal" id="contact-form" novalidate>
+        <form class="form contact-form reveal js-only" id="contact-form" novalidate>
           <h3>Send a message</h3>
           <div class="field"><label for="c-name">Name</label><input id="c-name" name="name" autocomplete="name" required></div>
           <div class="field"><label for="c-phone">Phone</label><input id="c-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required></div>
@@ -612,7 +629,7 @@
       <div class="footer-contact">
         <h2 class="footer-h">Contact</h2>
         <ul>
-          <li><a data-link="whatsapp" href="#contact">WhatsApp <span data-fill="phoneDisplay">+977 98XXXXXXXX</span></a></li>
+          <li><a data-link="whatsapp" href="https://wa.me/" target="_blank" rel="noopener">WhatsApp <span data-fill="phoneDisplay">+977 98XXXXXXXX</span></a></li>
           <li><a data-link="email" href="mailto:info@tilichocare.com" data-fill="email">info@tilichocare.com</a></li>
           <li><span data-fill="address">[Your address], Nepal</span></li>
         </ul>
@@ -637,11 +654,11 @@
   <!-- Mobile sticky order bar -->
   <div class="buybar is-hidden" role="region" aria-label="Quick order">
     <div class="buybar-info"><b>Disposable Toilet Wand</b><span class="price">NPR 1,500</span></div>
-    <a class="btn btn-buy" href="#contact" data-order="wand">Order now</a>
-    <a class="buybar-wa" data-link="whatsapp" href="#contact" aria-label="Chat with Tilicho on WhatsApp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+    <a class="btn btn-buy" href="https://wa.me/?text=Hello%20Tilicho%21%20I%20would%20like%20to%20order%20the%20Disposable%20Toilet%20Wand%20%28box%20of%2016%20heads%29%2C%20NPR%201%2C500.%0APlease%20include%20the%20free%20drain%20stick%20launch%20offer%20if%20still%20available.%0AQuantity%3A%201%0AName%3A%0ADelivery%20address%3A" target="_blank" rel="noopener" data-order="wand">Order now</a>
+    <a class="buybar-wa" data-link="whatsapp" href="https://wa.me/" target="_blank" rel="noopener" aria-label="Chat with Tilicho on WhatsApp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
   </div>
 
-  <a class="wa-float" data-link="whatsapp" href="#contact" aria-label="Chat with Tilicho on WhatsApp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+  <a class="wa-float" data-link="whatsapp" href="https://wa.me/" target="_blank" rel="noopener" aria-label="Chat with Tilicho on WhatsApp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
 
   <script src="main.js" defer></script>
 </body>
