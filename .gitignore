@@ -1,0 +1,4 @@
+# Generated files (rebuild with tools/build_single.py and the zip command in DEPLOY.md)
+tilicho-website.html
+*.zip
+.DS_Store
